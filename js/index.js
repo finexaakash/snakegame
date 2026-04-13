@@ -156,3 +156,34 @@ window.addEventListener('keydown', e => {
     }
 });
 window.requestAnimationFrame(main);
+let startX = 0;
+let startY = 0;
+
+window.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+});
+
+window.addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+
+    let dx = endX - startX;
+    let dy = endY - startY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        // horizontal swipe
+        if (dx > 0 && inputDir.x !== -1) {
+            inputDir = {x: 1, y: 0}; // right
+        } else if (dx < 0 && inputDir.x !== 1) {
+            inputDir = {x: -1, y: 0}; // left
+        }
+    } else {
+        // vertical swipe
+        if (dy > 0 && inputDir.y !== -1) {
+            inputDir = {x: 0, y: 1}; // down
+        } else if (dy < 0 && inputDir.y !== 1) {
+            inputDir = {x: 0, y: -1}; // up
+        }
+    }
+});
